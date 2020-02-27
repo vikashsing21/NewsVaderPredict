@@ -3,15 +3,18 @@ from flask import Flask, request, jsonify
 from newsapi import NewsApiClient
 import pandas as pd
 import json
+import nltk
 
 app = Flask(__name__)
 sia = SIA()
+
+nltk.download('vader_lexicon')
 
 newsapi = NewsApiClient(api_key='3bff10bbdc444b09bbe7ddf8e6b381e3')
 
 
 def results(news):
-    res=[]
+    res = []
     df_data = pd.read_json(json.dumps(news))
     for title in df_data["title"]:
         pol_score = sia.polarity_scores(title)
@@ -65,11 +68,12 @@ def topSports():
                                                      country='in')
     return results(top_headlines_sports['articles'])
 
+
 def topBusiness():
     top_headlines_business = newsapi.get_top_headlines(category='business',
-                                                     language='en',
-                                                     page_size=100,
-                                                     country='in')
+                                                       language='en',
+                                                       page_size=100,
+                                                       country='in')
     return results(top_headlines_business['articles'])
 
 
@@ -79,6 +83,7 @@ def topHealth():
                                                      page_size=100,
                                                      country='in')
     return results(top_headlines_health['articles'])
+
 
 def positivenews(newsData):
     posdata = []
@@ -95,22 +100,26 @@ def negativenews(newsData):
             negdata.append(data)
     return negdata
 
+
 # General
 @app.route('/predict/general/positive', methods=['GET'])
 def predictGenPos():
     response = positivenews(topGen())
     return jsonify(response)
 
+
 @app.route('/predict/general/negative', methods=['GET'])
 def predictGenNeg():
     response = negativenews(topGen())
     return jsonify(response)
+
 
 # Health
 @app.route('/predict/health/positive', methods=['GET'])
 def predictHealthPos():
     response = positivenews(topHealth())
     return jsonify(response)
+
 
 @app.route('/predict/health/negative', methods=['GET'])
 def predictHealthNeg():
@@ -141,11 +150,11 @@ def predictSports():
     response = topSports()
     return jsonify(response)
 
+
 @app.route('/predict/business', methods=['GET'])
 def predictBusiness():
     response = topBusiness()
-    return jsonify(response)    
-
+    return jsonify(response)
 
 
 if __name__ == '__main__':
