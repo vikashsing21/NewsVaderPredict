@@ -21,8 +21,8 @@ def results(news):
         res.append(pol_score)
     df = pd.DataFrame.from_records(res)
     df['label'] = 'neutral'
-    df.loc[df['compound'] > 0.2, 'label'] = 'positive'
-    df.loc[df['compound'] < -0.2, 'label'] = 'negative'
+    df.loc[df['compound'] > 0.4, 'label'] = 'positive'
+    df.loc[df['compound'] < -0.4, 'label'] = 'negative'
     df_combine = pd.concat([df_data, df['label']], axis=1)
     df_temp = pd.DataFrame(df_combine)
     responseData = json.loads(df_temp.to_json(orient="records"))
@@ -32,7 +32,7 @@ def results(news):
 def topGen():
     top_headlines_general = newsapi.get_top_headlines(category='general',
                                                       language='en',
-                                                      page_size=100,
+                                                      page_size=40,
                                                       country='in')
     return results(top_headlines_general['articles'])
 
@@ -40,7 +40,7 @@ def topGen():
 def topEnt():
     top_headlines_entertainment = newsapi.get_top_headlines(category='entertainment',
                                                             language='en',
-                                                            page_size=100,
+                                                            page_size=40,
                                                             country='in')
     return results(top_headlines_entertainment['articles'])
 
@@ -48,7 +48,7 @@ def topEnt():
 def topTech():
     top_headlines_technology = newsapi.get_top_headlines(category='technology',
                                                          language='en',
-                                                         page_size=100,
+                                                         page_size=40,
                                                          country='in')
     return results(top_headlines_technology['articles'])
 
@@ -56,7 +56,7 @@ def topTech():
 def topScience():
     top_headlines_science = newsapi.get_top_headlines(category='science',
                                                       language='en',
-                                                      page_size=100,
+                                                      page_size=40,
                                                       country='in')
     return results(top_headlines_science['articles'])
 
@@ -64,7 +64,7 @@ def topScience():
 def topSports():
     top_headlines_sports = newsapi.get_top_headlines(category='sports',
                                                      language='en',
-                                                     page_size=100,
+                                                     page_size=40,
                                                      country='in')
     return results(top_headlines_sports['articles'])
 
@@ -72,7 +72,7 @@ def topSports():
 def topBusiness():
     top_headlines_business = newsapi.get_top_headlines(category='business',
                                                        language='en',
-                                                       page_size=100,
+                                                       page_size=40,
                                                        country='in')
     return results(top_headlines_business['articles'])
 
@@ -80,7 +80,7 @@ def topBusiness():
 def topHealth():
     top_headlines_health = newsapi.get_top_headlines(category='health',
                                                      language='en',
-                                                     page_size=100,
+                                                     page_size=40,
                                                      country='in')
     return results(top_headlines_health['articles'])
 
