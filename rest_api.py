@@ -5,11 +5,11 @@ import pandas as pd
 import json
 import nltk
 
-app = Flask(__name__)
-sia = SIA()
 
 nltk.download('vader_lexicon')
+sia = SIA()
 
+app = Flask(__name__)
 newsapi = NewsApiClient(api_key='3bff10bbdc444b09bbe7ddf8e6b381e3')
 
 
